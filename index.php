@@ -89,8 +89,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="webPage/signup.php">Sign Up</a>
+                        <li class="nav-item"><?php
+                                if(!isset($_SESSION['current_user'])){
+                                    echo "<a class='nav-link' href='webPage/signup.php'>Sign Up</a>";
+                                }
+                            ?>
                         </li>
                         <li class="nav-item">
                             <?php

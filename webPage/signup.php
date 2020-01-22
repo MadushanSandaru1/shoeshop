@@ -17,7 +17,15 @@
         $sql = "INSERT INTO `customer`(`id`, `name`, `address`, `email`, `phone`) VALUES ('$username', '$name', '$address', '$email', '$phone')";
         
         if (mysqli_query($conn, $sql)) {
-            echo "New record created successfully";
+            $sql = "INSERT INTO `user`(`id`, `password`, `role`) VALUES ('$username','$hpwd','customer')";
+            
+            if (mysqli_query($conn, $sql)) {
+                $_SESSION['current_user'] = $username;
+                $_SESSION['name'] = $name;
+                $_SESSION['email'] = $email;
+
+                header('location:../index.php');
+            }
         } else {
             echo "<script>alert(".mysqli_error($conn).")</script>";
         }
@@ -58,7 +66,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto lead">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="../index.php">Home
                             <span class="sr-only">(current)</span>
                         </a>
@@ -66,7 +74,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="signup.php">Sign Up</a>
                     </li>
                     <li class="nav-item">
