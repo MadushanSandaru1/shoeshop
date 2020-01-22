@@ -1,7 +1,7 @@
 
 .user_card {
     height: 600px;
-    width: 500px;
+    width: 600px;
     margin-top: 50px;
     margin-bottom: 150px;
     background: #EE2B6F;
@@ -58,7 +58,7 @@
 }
 .input-group-text {
     background: #fff !important;
-    color: white !important;
+    color: #EE2B6F !important;
     border: 0 !important;
     border-radius: 0.25rem 0 0 0.25rem !important;
 }

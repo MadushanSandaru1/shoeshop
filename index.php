@@ -87,7 +87,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="webPage/contactUs.php">Contact Us</a>
                         </li>
                         <li class="nav-item"><?php
                                 if(!isset($_SESSION['current_user'])){

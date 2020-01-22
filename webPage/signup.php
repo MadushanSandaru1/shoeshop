@@ -4,6 +4,8 @@
 
     session_start();
 
+    $errStatus = "none";
+
     if(isset($_POST['signUp'])){
         $username = $_POST['username'];
         $name = $_POST['name'];
@@ -27,7 +29,7 @@
                 header('location:../index.php');
             }
         } else {
-            echo "<script>alert(".mysqli_error($conn).")</script>";
+            $errStatus = "block";
         }
     }
 
@@ -52,6 +54,8 @@
         <!-- Bootstrap core CSS -->
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/signup.css" rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     </head>
 
@@ -72,7 +76,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="contactUs.php">Contact Us</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="signup.php">Sign Up</a>
@@ -85,6 +89,12 @@
         </div>
     </nav>
 
+    <div class="container mb-4">
+      <div class="alert alert-danger" style="display:<?php echo $errStatus; ?>">
+        <strong>Failed!</strong> Try again.
+      </div>
+    </div>
+    
     <!-- Page Content -->
     <div class="container">
 		<div class="d-flex justify-content-center">
@@ -98,43 +108,43 @@
 					<form method="post" action="signup.php">
 						<div class="input-group mb-3">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fa fa-tag"></i></span>
 							</div>
 							<input type="text" name="username" class="form-control input_user" value="" placeholder="username">
 						</div>
                         <div class="input-group mb-3">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fa fa-user"></i></span>
 							</div>
 							<input type="text" name="name" class="form-control input_user" value="" placeholder="Name">
 						</div>
                         <div class="input-group mb-3">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fa fa-envelope"></i></span>
 							</div>
 							<input type="email" name="email" class="form-control input_user" value="" placeholder="Email">
 						</div>
                         <div class="input-group mb-3">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fa fa-address-card-o"></i></span>
 							</div>
 							<input type="text" name="address" class="form-control input_user" value="" placeholder="Address">
 						</div>
                         <div class="input-group mb-3">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fa fa-phone-square"></i></span>
 							</div>
 							<input type="text" name="phone" class="form-control input_user" value="" placeholder="Phone Number">
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
+								<span class="input-group-text"><i class="fa fa-key"></i></span>
 							</div>
 							<input type="password" name="pwd" class="form-control input_pass" value="" placeholder="password">
 						</div>
                         <div class="input-group mb-2">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
+								<span class="input-group-text"><i class="fa fa-key"></i></span>
 							</div>
 							<input type="password" name="repwd" class="form-control input_pass" value="" placeholder="Re-enter password">
 						</div>
