@@ -27,7 +27,11 @@
         
         <script src="vendor/jquery/jquery.min.js"></script>
         
-        
+        <style>
+            body {
+                background-image: url('image/back.gif');
+            }
+        </style>
         
         <script>
             

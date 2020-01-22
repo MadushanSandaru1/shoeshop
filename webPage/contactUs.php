@@ -45,6 +45,14 @@
         <!-- Bootstrap core CSS -->
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/signup.css" rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <style>
+            body {
+                background-image: url('../image/back.gif');
+            }
+        </style>
 
     </head>
 
@@ -112,7 +120,7 @@
 					<form method="post" action="contactUs.php">
                         <div class="input-group mb-3">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fa fa-envelope"></i></span>
 							</div>
 							<input type="email" name="email" class="form-control input_user" value="<?php
                                 if(isset($_SESSION['current_user'])){
@@ -122,13 +130,13 @@
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fa fa-tag"></i></span>
 							</div>
 							<input type="text" name="subject" class="form-control input_user" value="" placeholder="Subject" required>
 						</div>
                         <div class="input-group mb-2">
 							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
+								<span class="input-group-text"><i class="fa fa-commenting"></i></span>
 							</div>
                             <textarea rows="5" cols="5" name="message" class="form-control input_user" placeholder="Message"></textarea>
 						</div>

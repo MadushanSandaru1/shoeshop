@@ -39,13 +39,12 @@
     background: #fff !important;
     color: #EE2B6F !important;
     font-weight: bold;
-    border: 1px solid #fff;
 }
 
 .login_btn:hover {
     
     background: #EE2B6F !important;
-    color: #fff !important;
+    color: #EE2B6F !important;
 }
 
 .login_btn:focus {
