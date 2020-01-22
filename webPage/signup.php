@@ -158,9 +158,6 @@
 					<div class="d-flex justify-content-center links">
 						Do you already have an account? <a href="login.php" class="ml-2">Login</a>
 					</div>
-					<div class="d-flex justify-content-center links">
-						<a href="#">Forgot your password?</a>
-					</div>
 				</div>
 			</div>
 		</div>

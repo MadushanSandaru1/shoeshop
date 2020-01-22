@@ -10,6 +10,10 @@
     $_SESSION['error_message'] = "";
     $user = null;
 
+    if(isset($_COOKIE['username'])) {
+        $user = $_COOKIE['username'];
+    }
+
     if(isset($_POST['login'])){
         $user = $_POST['username'];
         $pwd = $_POST['password'];
@@ -37,6 +41,10 @@
                         $_SESSION['current_user'] = $row['id'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
+                        
+                        if(isset($_POST['remember'])){
+                            setcookie("username", $_SESSION['current_user'], time() + (86400 * 30), "/");
+                        }
                         
                         header('location:../index.php');
                     }
@@ -133,7 +141,13 @@
 						</div>
 						<div class="form-group">
 							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="customControlInline">
+								<input type="checkbox" value="1" name="remember" class="custom-control-input" id="customControlInline"
+                                       <?php
+                                        if(isset($_COOKIE['username'])) {
+                                            echo 'checked';
+                                        }
+                                       ?>
+                                >
 								<label class="custom-control-label" for="customControlInline">Remember me</label>
 							</div>
 						</div>
