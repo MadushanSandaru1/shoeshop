@@ -12,11 +12,13 @@
         $email = $_POST['email'];
         $address = $_POST['address'];
         $phone = $_POST['phone'];
+        $district = $_POST['district'];
         $pwd = $_POST['pwd'];
         $hpwd = md5($pwd);
         $repwd = $_POST['repwd'];
         
-        $sql = "INSERT INTO `customer`(`id`, `name`, `address`, `email`, `phone`) VALUES ('$username', '$name', '$address', '$email', '$phone')";
+        $sql = "INSERT INTO `customer`(`id`, `name`, `address`, `email`, `phone`, `district_id`) VALUES ('$username', '$name', '$address', '$email', '$phone', $district)";
+        echo "$sql";
         
         if (mysqli_query($conn, $sql)) {
             $sql = "INSERT INTO `user`(`id`, `password`, `role`) VALUES ('$username','$hpwd','customer')";
@@ -25,6 +27,7 @@
                 $_SESSION['current_user'] = $username;
                 $_SESSION['name'] = $name;
                 $_SESSION['email'] = $email;
+                $_SESSION['district'] = $district;
 
                 header('location:../index.php');
             }
@@ -59,7 +62,7 @@
         
         <style>
             body {
-                background-image: url('../image/back.gif');
+                /*background-image: url('../image/back.gif');*/
             }
         </style>
 
@@ -141,6 +144,28 @@
 								<span class="input-group-text"><i class="fa fa-phone-square"></i></span>
 							</div>
 							<input type="text" name="phone" class="form-control input_user" value="" placeholder="Phone Number">
+						</div>
+                        <div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fa fa-street-view"></i></span>
+							</div>
+                            <select name="district" class="form-control input_user">
+                                <?php
+                                
+                                    $sql = "SELECT * FROM `district`";
+                                
+                                    $result = mysqli_query($conn, $sql);
+                                
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            echo "<option value='{$row['id']}'>{$row['name']}</option>";
+                                        }
+                                    } else {
+                                        echo "<option disabled>Empty list</option>";
+                                    }
+                                
+                                ?>
+                            </select>
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">

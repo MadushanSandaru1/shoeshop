@@ -41,6 +41,7 @@
                         $_SESSION['current_user'] = $row['id'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
+                        $_SESSION['district'] = $row['district_id'];
                         
                         if(isset($_POST['remember'])){
                             setcookie("username", $_SESSION['current_user'], time() + (86400 * 30), "/");
@@ -86,7 +87,7 @@
         
         <style>
             body {
-                background-image: url('../image/back.gif');
+                /*background-image: url('../image/back.gif');*/
             }
         </style>
 
