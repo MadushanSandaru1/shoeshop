@@ -32,7 +32,7 @@
         <style>
             body {
                 /*background-image: url('image/back.gif');*/
-                background-image: url('image/back.gif');
+                background-image: url('image/back.png');
             }
         </style>
         
