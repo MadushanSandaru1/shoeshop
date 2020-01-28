@@ -4,6 +4,36 @@
 
     session_start();
 
+    require '../email/PHPMailerAutoload.php';
+    $credential = include('../email/credential.php');   //credentials import
+
+    $mail = new PHPMailer;
+    //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+    $mail->isSMTP();                                      // Set mailer to use SMTP
+    $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+    $mail->Username = $credential['user']  ;           // SMTP username
+    $mail->Password = $credential['pass']  ;                           // SMTP password
+    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 587;                                    // TCP port to connect to
+    $mail->setFrom($email);
+    $mail->addAddress($email);             // Name is optional
+    $mail->addReplyTo('hello');
+    $mail->isHTML(true);                                  // Set email format to HTML
+    $send1="";
+    $send2="";
+    $pw="Your password is : ".$pwd;
+    $mail->Subject = "Password";
+    $mail->Body    = "$pw<br>";
+    $mail->AltBody = 'If you see this mail. please reload the page.';
+
+    if(!$mail->send()) {
+        echo 'Message could not be sent.';
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        echo "<script>alert('Your password send your Email')</script>";
+    }
+
 ?>
 
 <?php
@@ -41,6 +71,7 @@
                         $_SESSION['current_user'] = $row['id'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
+                        $_SESSION['district'] = $row['district_id'];
                         
                         if(isset($_POST['remember'])){
                             setcookie("username", $_SESSION['current_user'], time() + (86400 * 30), "/");
@@ -80,9 +111,15 @@
         <!-- Bootstrap core CSS -->
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         
-        <link href="../css/login.css" rel="stylesheet">
+        <link href="../css/signup.css" rel="stylesheet">
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <style>
+            body {
+                /*background-image: url('../image/back.gif');*/
+            }
+        </style>
 
     </head>
 

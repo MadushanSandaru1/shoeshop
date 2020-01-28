@@ -1,5 +1,7 @@
 <?php
 
+    session_start();
+
     require_once('../connection/connection.php');
 
     $current_count = $_GET["current_count"];
@@ -33,8 +35,16 @@
             <p class="card-text"><?php echo $row['description']?></p>
         </div>
         
-        <div class="card-footer">
-            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        <div class="card-footer" style="text-align: center;">
+            <?php
+                if(isset($_SESSION['current_user'])){
+                    echo "<a href='index.php?add={$row['id']}' class='btn btn-warning mx-2'><i class='fa fa-cart-plus'></i>Add Cart</a>";
+                    echo "<a href='buy.php?buy={$row['id']}' class='btn btn-success mx-3'>Buy</a>";
+                }
+                else {
+                    echo "<a href='login.php' class='btn btn-danger'>Buy</a>";
+                }
+            ?>
         </div>
     </div>
 </div>

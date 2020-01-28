@@ -25,9 +25,15 @@
         <!-- Bootstrap core CSS -->
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
         <script src="vendor/jquery/jquery.min.js"></script>
         
-        
+        <style>
+            body {
+                /*background-image: url('image/back.gif');*/
+            }
+        </style>
         
         <script>
             
@@ -82,6 +88,14 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto lead">
                         <li class="nav-item active">
+                            <?php
+                                if(isset($_SESSION['current_user'])){
+                            ?>
+                            <a class="nav-link" href="cart.php"><i class="fa fa-shopping-cart" style="font-size:30px; color:#fff;"></i>
+                            </a>
+                            <?php } ?>
+                        </li>
+                        <li class="nav-item active">
                             <a class="nav-link" href="index.php">Home
                                 <span class="sr-only">(current)</span>
                             </a>
@@ -89,7 +103,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="webPage/contactUs.php">Contact Us</a>
                         </li>
-                        <li class="nav-item"><?php
+                        <li class="nav-item">
+                            <?php
                                 if(!isset($_SESSION['current_user'])){
                                     echo "<a class='nav-link' href='webPage/signup.php'>Sign Up</a>";
                                 }
@@ -156,9 +171,16 @@
 
                                 if (mysqli_num_rows($result) > 0) {
                                     while($row = mysqli_fetch_assoc($result)) {
-                                        echo "<div class='carousel-item active'>
+                                        if($row['id']==1){
+                                            echo "<div class='carousel-item active'>
                                         <img class='d-block img-fluid' src='". $row['image']."' alt='". $row['id']." slide'></a>
                                         </div>";
+                                        } else {
+                                            echo "<div class='carousel-item'>
+                                        <img class='d-block img-fluid' src='". $row['image']."' alt='". $row['id']." slide'></a>
+                                        </div>";
+                                        }
+                                        
                                     }
                                 }
                             ?>
@@ -205,8 +227,16 @@
                                     <h5>LKR <?php echo $row['price']?></h5>
                                     <p class="card-text"><?php echo $row['description']?></p>
                                 </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                                <div class="card-footer" style="text-align: center;">
+                                    <?php
+                                        if(isset($_SESSION['current_user'])){
+                                            echo "<a href='index.php?add={$row['id']}' class='btn btn-warning mx-2'><i class='fa fa-cart-plus'></i>Add Cart</a>";
+                                            echo "<a href='buy.php?buy={$row['id']}' class='btn btn-success mx-2'>Buy</a>";
+                                        }
+                                        else {
+                                            echo "<a href='login.php' class='btn btn-danger'>Buy</a>";
+                                        }
+                                    ?>
                                 </div>
                             </div>
                         </div>
