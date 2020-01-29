@@ -18,7 +18,6 @@
         $repwd = $_POST['repwd'];
         
         $sql = "INSERT INTO `customer`(`id`, `name`, `address`, `email`, `phone`, `district_id`) VALUES ('$username', '$name', '$address', '$email', '$phone', $district)";
-        echo "$sql";
         
         if (mysqli_query($conn, $sql)) {
             $sql = "INSERT INTO `user`(`id`, `password`, `role`) VALUES ('$username','$hpwd','customer')";

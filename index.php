@@ -4,6 +4,26 @@
 
     session_start();
 
+    if(isset($_GET['add'])) {
+	    
+        $sql = "INSERT INTO `cart`(`product_id`, `customer_id`) VALUES ('{$_GET['add']}','{$_SESSION['current_user']}')";
+        
+        mysqli_query($conn, $sql);
+    
+    }
+
+    $sql = "SELECT count(`id`) AS 'cartCount' FROM `cart` WHERE `customer_id` = '{$_SESSION['current_user']}'";
+
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        while($row = mysqli_fetch_assoc($result)) {
+            $cartCount = $row['cartCount'];
+        }
+    } else {
+        $cartCount = 0;
+    }
+
 ?>
 
 
@@ -88,11 +108,17 @@
 
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto lead">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <?php
                                 if(isset($_SESSION['current_user'])){
                             ?>
-                            <a class="nav-link" href="cart.php"><i class="fa fa-shopping-cart" style="font-size:30px; color:#fff;"></i>
+                            <a class="nav-link" href="webPage/cart.php"><i class="fa fa-shopping-cart" style="font-size:30px;">
+                                <?php 
+                                    if($cartCount!=0){
+                                        echo "<sup><span class='badge badge-pill badge-danger'>{$cartCount}</span></sup>";
+                                    }
+                                ?>
+                                </i>
                             </a>
                             <?php } ?>
                         </li>
@@ -227,15 +253,23 @@
                                     </h4>
                                     <h5>LKR <?php echo $row['price']?></h5>
                                     <p class="card-text"><?php echo $row['description']?></p>
+                                    <?php
+                                        if(isset($_SESSION['current_user'])){
+                                            echo "<p class='text-success'>Shipping: LKR {$row['price']}</p>";
+                                        }
+                                        else {
+                                            echo "<p class='text-success'>Please <a href='webPage/login.php'>login/Signup</a> to show the shipping cost</p>";
+                                        }
+                                    ?>
                                 </div>
                                 <div class="card-footer" style="text-align: center;">
                                     <?php
                                         if(isset($_SESSION['current_user'])){
                                             echo "<a href='index.php?add={$row['id']}' class='btn btn-warning mx-2'><i class='fa fa-cart-plus'></i>Add Cart</a>";
-                                            echo "<a href='buy.php?buy={$row['id']}' class='btn btn-success mx-2'>Buy</a>";
+                                            echo "<a href='webPage/buy.php?buy={$row['id']}' class='btn btn-success mx-2'>Buy</a>";
                                         }
                                         else {
-                                            echo "<a href='login.php' class='btn btn-danger'>Buy</a>";
+                                            echo "<a href='webPage/login.php?' class='btn btn-success mx-2'>Buy</a>";
                                         }
                                     ?>
                                 </div>
