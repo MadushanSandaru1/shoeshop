@@ -12,16 +12,18 @@
     
     }
 
-    $sql = "SELECT count(`id`) AS 'cartCount' FROM `cart` WHERE `customer_id` = '{$_SESSION['current_user']}'";
+    if(isset($_SESSION['current_user'])){
+        $sql = "SELECT count(`id`) AS 'cartCount' FROM `cart` WHERE `customer_id` = '{$_SESSION['current_user']}'";
+        
+        $result = mysqli_query($conn, $sql);
 
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-        while($row = mysqli_fetch_assoc($result)) {
-            $cartCount = $row['cartCount'];
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $cartCount = $row['cartCount'];
+            }
+        } else {
+            $cartCount = 0;
         }
-    } else {
-        $cartCount = 0;
     }
 
 ?>
@@ -246,16 +248,16 @@
 
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="<?php echo $row['image'] ?>" alt=""></a>
+                                <a href="webPage/product.php?proId=<?php echo $row['id'] ?>" target="_blank"><img class="card-img-top" src="<?php echo $row['image'] ?>" alt=""></a>
                                 <div class="card-body">
                                     <h4 class="card-title">
                                         <a href="#"><?php echo $row['name']?></a>
                                     </h4>
-                                    <h5>LKR <?php echo $row['price']?></h5>
+                                    <h5>LKR <?php echo number_format($row['price'],2); ?></h5>
                                     <p class="card-text"><?php echo $row['description']?></p>
                                     <?php
                                         if(isset($_SESSION['current_user'])){
-                                            echo "<p class='text-success'>Shipping: LKR {$row['price']}</p>";
+                                            echo "<p class='text-success'>Shipping: LKR ".number_format($row['price'],2)."</p>";
                                         }
                                         else {
                                             echo "<p class='text-success'>Please <a href='webPage/login.php'>login/Signup</a> to show the shipping cost</p>";

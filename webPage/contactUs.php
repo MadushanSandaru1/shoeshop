@@ -24,6 +24,20 @@
         }
     }
 
+    if(isset($_SESSION['current_user'])){
+        $sql = "SELECT count(`id`) AS 'cartCount' FROM `cart` WHERE `customer_id` = '{$_SESSION['current_user']}'";
+        
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $cartCount = $row['cartCount'];
+            }
+        } else {
+            
+        }
+    }
+
 ?>
 
 
@@ -68,6 +82,20 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto lead">
+                    <li class="nav-item">
+                        <?php
+                            if(isset($_SESSION['current_user'])){
+                        ?>
+                        <a class="nav-link" href="cart.php"><i class="fa fa-shopping-cart" style="font-size:30px;">
+                            <?php 
+                                if($cartCount!=0){
+                                    echo "<sup><span class='badge badge-pill badge-danger'>{$cartCount}</span></sup>";
+                                }
+                            ?>
+                            </i>
+                        </a>
+                        <?php } ?>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php">Home
                             <span class="sr-only">(current)</span>

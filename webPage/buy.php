@@ -117,16 +117,34 @@
 
         <!-- Page Content -->
         <div class="container">
-            <div class="row mt-3">
+            <div class="row">
 
-                <div class="col-lg-8">
-                    <div class="shadow-sm p-3 mb-5 bg-white rounded-lg "><h2>Shopping Cart (<?php echo $cartCount; ?>)</h2></div>
-                    
-                    <?php if($cartCount <= 0){
-                                echo "<div class='shadow-sm p-3 mb-5 bg-danger rounded-lg text-white'><h5>Cart is Empty</h5></div>";
+                <div class="col-lg-3">
+                    <h1 class="my-4">Shopping Cart</h1>
+                    <div class="list-group">
+
+                        <a href='../index.php?cat=all' class='list-group-item category'>All Category</a>
+
+                        <?php
+                            $sql = "SELECT * FROM `category`";
+
+                            $result = mysqli_query($conn, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    echo "<a href='../index.php?cat=" . $row['id']. "' class='list-group-item category'>" . $row['type']. "</a>";
+                                }
+                            } else {
+                                echo "<a href='#' class='list-group-item'>No Category</a>";
                             }
-                    ?>
-                                    
+                        ?>
+
+                    </div>
+
+                </div>
+                <!-- /.col-lg-3 -->
+
+                <div class="col-lg-9 mt-3">
 
                     <div class="row" id="product-container">
 
@@ -147,11 +165,11 @@
                                     <h4 class="card-title">
                                         <a href="#"><?php echo $row['name']?></a>
                                     </h4>
-                                    <h5>LKR <?php echo number_format($row['price'],2); ?></h5>
+                                    <h5>LKR <?php echo $row['price']?></h5>
                                     <p class="card-text"><?php echo $row['description']?></p>
                                     <?php
                                         if(isset($_SESSION['current_user'])){
-                                            echo "<p class='text-success'>Shipping: LKR ".number_format($row['price'],2)."</p>";
+                                            echo "<p class='text-success'>Shipping: LKR {$row['price']}</p>";
                                         }
                                         else {
                                             echo "<p class='text-success'>Please <a href='login.php'>login/Signup</a> to show the shipping cost</p>";
@@ -170,53 +188,26 @@
                         <?php } ?>
 
                     </div>
+                    <!-- /.row -->
 
-                </div>
-                
-                <div class="shadow-sm p-4 mb-5 bg-white rounded-lg col-lg-4 h-100">
-                    
                     <?php
-                        $sql = "SELECT SUM(p.`price`) AS 'subTotal' FROM `cart` c, `product` p WHERE c.`product_id` = p.`id` AND c.`customer_id` = '{$_SESSION['current_user']}'";
 
-                        $result = mysqli_query($conn, $sql);
+                        //get the total products count
+                        $query3 = "SELECT COUNT(`id`) AS `count` FROM `product`";
 
-                        if (mysqli_num_rows($result) > 0) {
-                            while($row = mysqli_fetch_assoc($result)) {
-                                $subTotal = $row['subTotal'];
-                                if($subTotal==0){
-                                    $shipping = 0;
-                                } else {
-                                    $shipping = 100;
-                                }
-                            }
-                        } else {
-                            $subTotal = 0;
-                            $shipping = 0;
-                        }
+                        $result3 = $conn->query($query3);
+
+                        $prod_count_object = $result3->fetch_object();
+
+                        $count = $prod_count_object->count;
+
                     ?>
-                    
-                    <h2>Order Summary</h2>
-                    <div class="d-flex">
-                        <div class="mr-auto p-2">Subtotal</div>
-                        <div class="p-2">LKR <?php echo number_format($subTotal,2); ?></div>
-                    </div>
-                    
-                    <div class="d-flex">
-                        <div class="mr-auto p-2">Shipping</div>
-                        <div class="p-2">LKR <?php echo number_format($shipping,2); ?></div>
-                    </div>
-                    
-                    <hr>
-                    
-                    <div class="d-flex">
-                        <div class="mr-auto p-2"><h5>Total</h5></div>
-                        <div class="p-2"><h5>LKR <?php echo number_format($subTotal+$shipping,2); ?></h5></div>
-                    </div>
-                    
-                    <button type="submit" name="msgSend" class="btn btn-danger w-100 mt-3">Buy (<?php echo $cartCount; ?>)</button>
+
+                    <span id="current_displayed_items" style="display:none;" >3</span>
+                    <span id="total_items" style="display:none;" ><?php echo $count; ?></span>
+
 
                 </div>
-                <!-- /.col-lg-3 -->
 
             </div>
 
