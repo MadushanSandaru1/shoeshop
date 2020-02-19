@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 30, 2020 at 07:22 AM
--- Server version: 5.7.14
--- PHP Version: 5.6.25
+-- Host: 127.0.0.1:3306
+-- Generation Time: Feb 19, 2020 at 01:18 AM
+-- Server version: 10.4.10-MariaDB
+-- PHP Version: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -26,9 +28,11 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin`
 --
 
-CREATE TABLE `admin` (
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE IF NOT EXISTS `admin` (
   `id` char(6) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -44,10 +48,12 @@ INSERT INTO `admin` (`id`, `name`) VALUES
 -- Table structure for table `brand`
 --
 
-CREATE TABLE `brand` (
-  `id` int(11) NOT NULL,
-  `name` varchar(25) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `brand`;
+CREATE TABLE IF NOT EXISTS `brand` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `brand`
@@ -67,10 +73,12 @@ INSERT INTO `brand` (`id`, `name`) VALUES
 -- Table structure for table `carousel`
 --
 
-CREATE TABLE `carousel` (
-  `id` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `carousel`;
+CREATE TABLE IF NOT EXISTS `carousel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `carousel`
@@ -87,19 +95,15 @@ INSERT INTO `carousel` (`id`, `image`) VALUES
 -- Table structure for table `cart`
 --
 
-CREATE TABLE `cart` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE IF NOT EXISTS `cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` char(5) NOT NULL,
-  `customer_id` char(6) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`id`, `product_id`, `customer_id`) VALUES
-(11, 'K0001', 'CUS001'),
-(12, 'M0003', 'CUS001');
+  `customer_id` char(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `p_id` (`product_id`),
+  KEY `c_id` (`customer_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -107,9 +111,11 @@ INSERT INTO `cart` (`id`, `product_id`, `customer_id`) VALUES
 -- Table structure for table `category`
 --
 
-CREATE TABLE `category` (
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE IF NOT EXISTS `category` (
   `id` char(1) NOT NULL,
-  `type` varchar(5) NOT NULL
+  `type` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -127,11 +133,13 @@ INSERT INTO `category` (`id`, `type`) VALUES
 -- Table structure for table `contactus_submissions`
 --
 
-CREATE TABLE `contactus_submissions` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `contactus_submissions`;
+CREATE TABLE IF NOT EXISTS `contactus_submissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `subject` varchar(255) NOT NULL,
   `message` varchar(255) NOT NULL,
-  `email` varchar(50) NOT NULL
+  `email` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -140,13 +148,16 @@ CREATE TABLE `contactus_submissions` (
 -- Table structure for table `customer`
 --
 
-CREATE TABLE `customer` (
+DROP TABLE IF EXISTS `customer`;
+CREATE TABLE IF NOT EXISTS `customer` (
   `id` char(6) NOT NULL,
   `name` varchar(50) NOT NULL,
   `address` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
   `phone` char(10) NOT NULL,
-  `district_id` int(11) NOT NULL
+  `district_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `district_id` (`district_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -163,10 +174,12 @@ INSERT INTO `customer` (`id`, `name`, `address`, `email`, `phone`, `district_id`
 -- Table structure for table `district`
 --
 
-CREATE TABLE `district` (
-  `id` int(11) NOT NULL,
-  `name` char(60) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `district`;
+CREATE TABLE IF NOT EXISTS `district` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(60) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `district`
@@ -205,11 +218,14 @@ INSERT INTO `district` (`id`, `name`) VALUES
 -- Table structure for table `payment`
 --
 
-CREATE TABLE `payment` (
+DROP TABLE IF EXISTS `payment`;
+CREATE TABLE IF NOT EXISTS `payment` (
   `id` char(7) NOT NULL,
   `c_id` char(6) NOT NULL,
   `date` date NOT NULL,
-  `amount` float NOT NULL
+  `amount` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `c_id` (`c_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -218,7 +234,8 @@ CREATE TABLE `payment` (
 -- Table structure for table `product`
 --
 
-CREATE TABLE `product` (
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE IF NOT EXISTS `product` (
   `id` char(5) NOT NULL,
   `name` varchar(25) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -227,7 +244,11 @@ CREATE TABLE `product` (
   `price` float NOT NULL,
   `category_id` char(1) NOT NULL,
   `weight` double NOT NULL,
-  `location` varchar(50) NOT NULL
+  `location` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `brand_id` (`brand_id`),
+  KEY `category_id` (`category_id`),
+  KEY `location` (`location`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -252,11 +273,13 @@ INSERT INTO `product` (`id`, `name`, `description`, `brand_id`, `image`, `price`
 -- Table structure for table `review`
 --
 
-CREATE TABLE `review` (
+DROP TABLE IF EXISTS `review`;
+CREATE TABLE IF NOT EXISTS `review` (
   `p_id` char(5) NOT NULL,
   `u_id` char(6) NOT NULL,
   `r_num` int(11) NOT NULL,
-  `r_text` varchar(255) NOT NULL
+  `r_text` varchar(255) NOT NULL,
+  PRIMARY KEY (`p_id`,`u_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -273,11 +296,14 @@ INSERT INTO `review` (`p_id`, `u_id`, `r_num`, `r_text`) VALUES
 -- Table structure for table `shipping_price`
 --
 
-CREATE TABLE `shipping_price` (
+DROP TABLE IF EXISTS `shipping_price`;
+CREATE TABLE IF NOT EXISTS `shipping_price` (
   `location` varchar(50) NOT NULL,
   `district_id` int(11) NOT NULL,
   `max_distance` int(11) NOT NULL,
-  `weight_price` double NOT NULL
+  `weight_price` double NOT NULL,
+  PRIMARY KEY (`location`),
+  KEY `district_id` (`district_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -286,10 +312,12 @@ CREATE TABLE `shipping_price` (
 -- Table structure for table `stock`
 --
 
-CREATE TABLE `stock` (
+DROP TABLE IF EXISTS `stock`;
+CREATE TABLE IF NOT EXISTS `stock` (
   `id` char(5) NOT NULL,
   `size` char(3) NOT NULL,
-  `available` int(11) NOT NULL
+  `available` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`size`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -306,10 +334,12 @@ INSERT INTO `stock` (`id`, `size`, `available`) VALUES
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
   `id` char(6) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` varchar(8) NOT NULL
+  `role` varchar(8) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -320,132 +350,8 @@ INSERT INTO `user` (`id`, `password`, `role`) VALUES
 ('ADM001', '202cb962ac59075b964b07152d234b70', 'admin'),
 ('CUS001', '202cb962ac59075b964b07152d234b70', 'customer'),
 ('CUS002', '202cb962ac59075b964b07152d234b70', 'customer');
+COMMIT;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `brand`
---
-ALTER TABLE `brand`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `carousel`
---
-ALTER TABLE `carousel`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `cart`
---
-ALTER TABLE `cart`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `p_id` (`product_id`),
-  ADD KEY `c_id` (`customer_id`);
-
---
--- Indexes for table `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `contactus_submissions`
---
-ALTER TABLE `contactus_submissions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `customer`
---
-ALTER TABLE `customer`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `district_id` (`district_id`);
-
---
--- Indexes for table `district`
---
-ALTER TABLE `district`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `payment`
---
-ALTER TABLE `payment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `c_id` (`c_id`);
-
---
--- Indexes for table `product`
---
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `brand_id` (`brand_id`),
-  ADD KEY `category_id` (`category_id`),
-  ADD KEY `location` (`location`);
-
---
--- Indexes for table `review`
---
-ALTER TABLE `review`
-  ADD PRIMARY KEY (`p_id`,`u_id`);
-
---
--- Indexes for table `shipping_price`
---
-ALTER TABLE `shipping_price`
-  ADD PRIMARY KEY (`location`),
-  ADD KEY `district_id` (`district_id`);
-
---
--- Indexes for table `stock`
---
-ALTER TABLE `stock`
-  ADD PRIMARY KEY (`id`,`size`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `brand`
---
-ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `carousel`
---
-ALTER TABLE `carousel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `cart`
---
-ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
---
--- AUTO_INCREMENT for table `contactus_submissions`
---
-ALTER TABLE `contactus_submissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `district`
---
-ALTER TABLE `district`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
