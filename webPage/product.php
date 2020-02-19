@@ -179,7 +179,7 @@
                                 <th class="p-4 table-danger">Brand</th>
                                 <td><?php echo $rowProId['bname']; ?></td>
                                 <th class="p-4 table-danger">Category</th>
-                                <td><?php echo $rowProId['bname']; ?></td>
+                                <td><?php echo $rowProId['type']; ?></td>
                             </tr>
                         </table>
                         
