@@ -24,6 +24,10 @@
         $cartCount = 0;
     }
 
+    if(isset($_GET['buy'])){
+        $buyId = $_GET['buy'];
+    }
+
 ?>
 
 
@@ -150,7 +154,7 @@
 
                         <?php 
 
-                            $query2 = "SELECT c.`id` AS 'cartId',p.* FROM `cart` c, `product` p WHERE c.`product_id` = p.`id` AND c.`customer_id` = '{$_SESSION['current_user']}'";
+                            $query2 = "SELECT * FROM `product` WHERE `id` = '{$buyId}'";
 
                             $result = $conn->query($query2);
 
@@ -174,12 +178,6 @@
                                         else {
                                             echo "<p class='text-success'>Please <a href='login.php'>login/Signup</a> to show the shipping cost</p>";
                                         }
-                                    ?>
-                                </div>
-                                <div class="card-footer" style="text-align: center;">
-                                    <?php
-                                        echo "<a href='cart.php' class='btn btn-success mx-2'>Buy</a>";
-                                        echo "<a href='cart.php?remove={$row['cartId']}' class='btn btn-danger mx-2'>Remove</a>";
                                     ?>
                                 </div>
                             </div>

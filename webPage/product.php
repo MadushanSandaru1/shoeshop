@@ -138,7 +138,7 @@
             <div class="row">
 
                 <div class="col-lg-4">
-                    <div class="shadow-sm p-3 mb-5 bg-white rounded-lg "><img src="../<?php echo $rowProId['image']; ?>" width="100%"></div>
+                    <div class="shadow-sm p-3 mb-5 bg-white rounded-lg border border-danger"><img src="../<?php echo $rowProId['image']; ?>" width="100%"></div>
                     
                     
 
@@ -149,29 +149,41 @@
                         
                         <table class="table">
                             <tr>
-                                <th class="p-4">Description</th>
-                                <td colspan="2" class="text-justify"><?php echo $rowProId['description']; ?></td>
+                                <th class="p-4 table-danger">Description</th>
+                                <td colspan="3" class="text-justify"><?php echo $rowProId['description']; ?></td>
                             </tr>
                             <tr>
-                                <th class="p-4">Price</th>
-                                <td colspan="2" ><h4>LKR <?php echo $rowProId['price']; ?></h4></td>
+                                <th class="p-4 table-danger">Price</th>
+                                <td colspan="3" ><h4>LKR <?php echo $rowProId['price']; ?></h4></td>
                             </tr>
                             <tr>
-                                <th class="p-4">Product Code</th>
-                                <td colspan="2"><?php echo $rowProId['id']; ?></td>
+                                <th class="p-4 table-danger">Size</th>
+                                <td colspan="3">
+                                    <form method="POST">
+                                        <button name="data" type="button" onclick="getData()" class="btn btn-outline-danger mb-2">25</button>
+                                    </form>
+                                </td>
                             </tr>
                             <tr>
-                                <th class="p-4">Brand</th>
+                                <th class="p-4 table-danger">Quantity</th>
+                                <td colspan="3">
+                                    <input type="number" value="1" min="1" max="10" step="1"/>
+                                    <?php echo $rowProId['id']; ?> pair available
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="p-4 table-danger">Product Code</th>
+                                <td colspan="3"><?php echo $rowProId['id']; ?></td>
+                            </tr>
+                            <tr>
+                                <th class="p-4 table-danger">Brand</th>
                                 <td><?php echo $rowProId['bname']; ?></td>
-                                <th class="p-4">Category</th>
+                                <th class="p-4 table-danger">Category</th>
                                 <td><?php echo $rowProId['bname']; ?></td>
                             </tr>
                         </table>
                         
                     </div>
-                    
-                    
-
                 </div>
                 
                 
