@@ -50,7 +50,7 @@
                     echo "<a href='buy.php?buy={$row['id']}' class='btn btn-success mx-3'>Buy</a>";
                 }
                 else {
-                    echo "<a href='login.php' class='btn btn-danger'>Buy</a>";
+                    echo "<a href='login.php' class='btn btn-success'>Buy</a>";
                 }
             ?>
         </div>

@@ -11,6 +11,24 @@
         $result = mysqli_query($conn, $sql);
 
         $rowProId = mysqli_fetch_assoc($result);
+        
+        $sql = "SELECT * FROM `stock` WHERE `id` =  '{$_GET['proId']}'";
+
+        $resultSizes = mysqli_query($conn, $sql);
+        
+        $sql = "SELECT SUM(`available`) AS 'count' FROM `stock` WHERE `id` =  '{$_GET['proId']}'";
+        
+        $result = mysqli_query($conn, $sql);
+
+        $rowStockCount = mysqli_fetch_assoc($result);
+    
+    }
+
+    if(isset($_GET['add'])) {
+	    
+        $sql = "INSERT INTO `cart`(`product_id`, `customer_id`) VALUES ('{$_GET['add']}','{$_SESSION['current_user']}')";
+        
+        mysqli_query($conn, $sql);
     
     }
 
@@ -52,6 +70,30 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         
         <script src="../vendor/jquery/jquery.min.js"></script>
+        
+        <script>
+            function showSizeDetails(str) {
+                var xhttp;
+                if (str == "") {
+                    document.getElementById("txtHint").innerHTML = "";
+                    return;
+                }
+                
+                xhttp = new XMLHttpRequest();
+                
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("txtHint").innerHTML = this.responseText;
+                        var input = document.getElementById ("sizeInput");
+                        input.max = this.responseText;
+                        input.value = 1;
+                    }
+                };
+                
+                xhttp.open("GET", "productSize.php?size="+str, true);
+                xhttp.send();
+            }
+        </script>
         
         <style>
             body {
@@ -152,6 +194,11 @@
                                 <th class="p-4 table-danger">Description</th>
                                 <td colspan="3" class="text-justify">
                                     <?php echo $rowProId['description']; ?>
+                                    <p class="mt-2">
+                                        <b>Product Code: </b><?php echo $rowProId['id']; ?><br>
+                                        <b>Brand: </b><?php echo $rowProId['bname']; ?><br>
+                                        <b>Category: </b><?php echo $rowProId['type']; ?><br>                                  
+                                    </p>
                                     <div class="row mt-3 pl-4">
                                         <?php
                                             $rate = 3.4;
@@ -179,27 +226,33 @@
                             <tr>
                                 <th class="p-4 table-danger">Size</th>
                                 <td colspan="3">
-                                    <form method="POST">
-                                        <button name="data" type="button" onclick="getData()" class="btn btn-outline-danger mb-2">25</button>
-                                    </form>
+                                    <?php
+                                        while($rowSizes = mysqli_fetch_assoc($resultSizes)) {
+                                            echo "<button name='size' value='{$rowSizes['size']}' onclick='showSizeDetails(this.value)' class='btn btn-outline-danger m-1'>{$rowSizes['size']}</button>";
+                                        }
+                                    ?>
                                 </td>
                             </tr>
                             <tr>
                                 <th class="p-4 table-danger">Quantity</th>
                                 <td colspan="3">
-                                    <input type="number" value="1" min="1" max="10" step="1"/>
-                                    <?php echo $rowProId['id']; ?> pair available
+                                    <input type="number" id="sizeInput" value="1" min="1" max="<?php echo $rowStockCount['count']; ?>" step="1"/>
+                                    <?php echo "<font id='txtHint'>".$rowStockCount['count']."</font>"; ?> pair available
                                 </td>
                             </tr>
                             <tr>
-                                <th class="p-4 table-danger">Product Code</th>
-                                <td colspan="3"><?php echo $rowProId['id']; ?></td>
-                            </tr>
-                            <tr>
-                                <th class="p-4 table-danger">Brand</th>
-                                <td><?php echo $rowProId['bname']; ?></td>
-                                <th class="p-4 table-danger">Category</th>
-                                <td><?php echo $rowProId['type']; ?></td>
+                                <th></th>
+                                <td colspan="3">
+                                    <?php
+                                        if(isset($_SESSION['current_user'])){
+                                            echo "<a href='product.php?proId={$rowProId['id']}&add={$rowProId['id']}' class='btn btn-warning mx-2'><i class='fa fa-cart-plus'></i>Add Cart</a>";
+                                            echo "<a href='buy.php?buy={$row['id']}' class='btn btn-success mx-2'>Buy</a>";
+                                        }
+                                        else {
+                                            echo "<a href='webPage/login.php?' class='btn btn-success mx-2'>Buy</a>";
+                                        }
+                                    ?>
+                                </td>
                             </tr>
                         </table>
                         
