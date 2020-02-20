@@ -150,7 +150,27 @@
                         <table class="table">
                             <tr>
                                 <th class="p-4 table-danger">Description</th>
-                                <td colspan="3" class="text-justify"><?php echo $rowProId['description']; ?></td>
+                                <td colspan="3" class="text-justify">
+                                    <?php echo $rowProId['description']; ?>
+                                    <div class="row mt-3 pl-4">
+                                        <?php
+                                            $rate = 3.4;
+                                            $j = round($rate);
+                                            for($i=1;$i<=5;$i++){
+                                                if($j>0){
+                                                    echo "<span><i class='fa fa-star text-danger' aria-hidden='true'></i>&nbsp;&nbsp;</span>";
+                                                } else{
+                                                    echo "<span><i class='fa fa-star-o  text-danger' aria-hidden='true'></i>&nbsp;&nbsp;</span>";
+                                                }
+                                                //echo "<span><i class='fa fa-star-half-o' aria-hidden='true'></i>&nbsp;&nbsp;</span>";
+                                                
+                                                $j--;
+                                            }
+                                        
+                                            echo "<p>$rate</p>";
+                                        ?>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <th class="p-4 table-danger">Price</th>
