@@ -249,7 +249,7 @@
                                             echo "<a href='buy.php?buy={$row['id']}' class='btn btn-success mx-2'>Buy</a>";
                                         }
                                         else {
-                                            echo "<a href='webPage/login.php?' class='btn btn-success mx-2'>Buy</a>";
+                                            echo "<a href='login.php?' class='btn btn-success mx-2'>Buy</a>";
                                         }
                                     ?>
                                 </td>

@@ -10,7 +10,7 @@
 
     $rowProId = mysqli_fetch_assoc($result);
 
-    $_SESSION['maxSize'] = $rowProId['available'];
+    //$_SESSION['maxSize'] = $rowProId['available'];
 
     echo $rowProId['available'];
 ?>
